@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.TestUtils;
-import com.example.demo.model.persistence.User;
+import com.example.demo.model.persistence.UserApplication;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class UserControllerTest {
+public class UserApplicationControllerTest {
 
     private UserController userController;
 
@@ -41,12 +41,12 @@ public class UserControllerTest {
         r.setPassword("testPassword");
         r.setConfirmPassword("testPassword");
 
-        final ResponseEntity<User> response = userController.createUser(r);
+        final ResponseEntity<UserApplication> response = userController.createUser(r);
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
 
-        User u = response.getBody();
+        UserApplication u = response.getBody();
         assertNotNull(u);
         assertEquals(0, u.getId());
         assertEquals("test", u.getUsername());

@@ -3,7 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.TestUtils;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
-import com.example.demo.model.persistence.User;
+import com.example.demo.model.persistence.UserApplication;
 import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
@@ -45,7 +45,7 @@ public class AddToCartControllerTest {
         cart.setItems(new ArrayList<>());
         cart.setTotal(BigDecimal.valueOf(0.0));
 
-        User user = new User();
+        UserApplication user = new UserApplication();
         user.setUsername("Dimi");
         user.setPassword("test");
         user.setCart(cart);
