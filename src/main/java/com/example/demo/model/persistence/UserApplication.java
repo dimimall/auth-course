@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserApplication {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,8 @@ public class User {
 	@JsonProperty
 	private String username;
 
+	@Column(nullable = false, unique = true)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@Column(nullable = false)
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL)
