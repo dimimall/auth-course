@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -25,7 +26,7 @@ import com.example.demo.model.requests.ModifyCartRequest;
 @RequestMapping("/api/cart")
 public class CartController {
 
-	private final static Logger log= LoggerFactory.getLogger(CartController.class);
+	private final static Logger log= LoggerFactory.getLogger(CartController.class.getName());
 
 	@Autowired
 	private UserRepository userRepository;
@@ -40,11 +41,12 @@ public class CartController {
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
 		UserApplication user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
+			log.error("ERROR: user does not exist");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			log.error("this item does not exist ",request.getItemId());
+			log.error("ERROR: this item does not exist "+request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
@@ -57,13 +59,15 @@ public class CartController {
 	@PostMapping("/removeFromCart")
 	public ResponseEntity<Cart> removeFromcart(@RequestBody ModifyCartRequest request) {
 		UserApplication user = userRepository.findByUsername(request.getUsername());
+
 		if(user == null) {
-			log.error("this user does not exist ",user.getUsername());
+			log.error("ERROR: this user does not exist "+user.getUsername());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
+
 		if(!item.isPresent()) {
-			log.error("this item does not exist ",request.getItemId());
+			log.error("ERROR: this item does not exist "+request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
