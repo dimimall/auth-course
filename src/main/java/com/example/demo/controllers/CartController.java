@@ -41,18 +41,19 @@ public class CartController {
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
 		UserApplication user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
-			log.error("ERROR: user does not exist");
+			log.error("FAIL: user does not exist");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			log.error("ERROR: this item does not exist "+request.getItemId());
+			log.error("FAIL: this item does not exist "+request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
 			.forEach(i -> cart.addItem(item.get()));
 		cartRepository.save(cart);
+		log.info("SUCCESS: add to cart "+cart.getTotal());
 		return ResponseEntity.ok(cart);
 	}
 	
@@ -61,19 +62,20 @@ public class CartController {
 		UserApplication user = userRepository.findByUsername(request.getUsername());
 
 		if(user == null) {
-			log.error("ERROR: this user does not exist "+user.getUsername());
+			log.error("FAIL: this user does not exist "+user.getUsername());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 
 		if(!item.isPresent()) {
-			log.error("ERROR: this item does not exist "+request.getItemId());
+			log.error("FAIL: this item does not exist "+request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
 			.forEach(i -> cart.removeItem(item.get()));
 		cartRepository.save(cart);
+		log.info("SUCCESS: remove to cart "+cart.getTotal());
 		return ResponseEntity.ok(cart);
 	}
 		

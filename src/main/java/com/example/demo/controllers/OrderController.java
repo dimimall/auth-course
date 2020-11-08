@@ -35,21 +35,29 @@ public class OrderController {
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		UserApplication user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("ERROR:this user does not exist "+username);
+			log.error("FAIL: this user does not exist "+username);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		UserOrder order = UserOrder.createFromCart(user.getCart());
-		orderRepository.save(order);
-		return ResponseEntity.ok(order);
+		else {
+			UserOrder order = UserOrder.createFromCart(user.getCart());
+			orderRepository.save(order);
+			log.info("SUCCESS: success submit order ");
+			return ResponseEntity.ok(order);
+		}
 	}
 	
 	@GetMapping("/history/{username}")
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
 		UserApplication user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("ERROR: this user does not exist "+username);
+			log.error("FAIL: this user does not exist "+username);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.ok(orderRepository.findByUser(user));
+		else {
+			for (int i=0; i<orderRepository.findByUser(user).size(); i++)
+				log.info("SUCCESS: User "+username+" spent "+orderRepository.findByUser(user).get(i).getTotal());
+
+			return ResponseEntity.ok(orderRepository.findByUser(user));
+		}
 	}
 }
