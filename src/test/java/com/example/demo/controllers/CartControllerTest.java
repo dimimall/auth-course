@@ -88,6 +88,83 @@ public class CartControllerTest {
     }
 
     @Test
+    public void addToCartNotNullUser(){
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(null);
+        cart.setItems(new ArrayList<>());
+        cart.setTotal(BigDecimal.valueOf(0.0));
+
+        UserApplication user = new UserApplication();
+        user.setId(1L);
+        user.setUsername(null);
+        user.setPassword("test");
+        user.setCart(cart);
+
+
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("t-shirt");
+        item.setDescription("this is a new t-shirt");
+        item.setPrice(BigDecimal.valueOf(10.0));
+
+        cart.addItem(item);
+        cart.setUser(user);
+        user.setCart(cart);
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("Dimi");
+
+        ResponseEntity<Cart> responseCart = cartController.addTocart(modifyCartRequest);
+        assertNotNull(responseCart);
+        assertEquals(404,responseCart.getStatusCodeValue());
+    }
+
+    @Test
+    public void addToCartWrongItem()
+    {
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(null);
+        cart.setItems(new ArrayList<>());
+        cart.setTotal(BigDecimal.valueOf(0.0));
+
+        UserApplication user = new UserApplication();
+        user.setId(1L);
+        user.setUsername("Dimi");
+        user.setPassword("test");
+        user.setCart(cart);
+
+
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("t-shirt");
+        item.setDescription("this is a new t-shirt");
+        item.setPrice(BigDecimal.valueOf(10.0));
+
+        cart.addItem(item);
+        cart.setUser(user);
+        user.setCart(cart);
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(3L);
+        modifyCartRequest.setQuantity(5);
+        modifyCartRequest.setUsername(user.getUsername());
+
+        ResponseEntity<Cart> responseCart = cartController.addTocart(modifyCartRequest);
+        assertNotNull(responseCart);
+        assertEquals(404,responseCart.getStatusCodeValue());
+    }
+
+    @Test
     public void removeToCart(){
 
         Cart cart = new Cart();
@@ -135,4 +212,79 @@ public class CartControllerTest {
         verify(cartRepository, times(1)).save(cart2);
     }
 
+    @Test
+    public void removeWrongItem()
+    {
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(null);
+        cart.setItems(new ArrayList<>());
+        cart.setTotal(BigDecimal.valueOf(0.0));
+
+        UserApplication user = new UserApplication();
+        user.setUsername("Dimi");
+        user.setPassword("test");
+        user.setCart(cart);
+
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("t-shirt");
+        item.setDescription("this is a new t-shirt");
+        item.setPrice(BigDecimal.valueOf(10.0));
+
+        cart.addItem(item);
+        cart.setUser(user);
+        user.setCart(cart);
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(3L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("Dimi");
+
+
+        ResponseEntity<Cart> responseCart = cartController.removeFromcart(modifyCartRequest);
+        assertNotNull(responseCart);
+        assertEquals(404,responseCart.getStatusCodeValue());
+    }
+
+    @Test
+    public void removeItemNullUser()
+    {
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(null);
+        cart.setItems(new ArrayList<>());
+        cart.setTotal(BigDecimal.valueOf(0.0));
+
+        UserApplication user = new UserApplication();
+        user.setUsername("Dimi");
+        user.setPassword("test");
+        user.setCart(cart);
+
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("t-shirt");
+        item.setDescription("this is a new t-shirt");
+        item.setPrice(BigDecimal.valueOf(10.0));
+
+        cart.addItem(item);
+        cart.setUser(user);
+        user.setCart(cart);
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(3L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("Dimi");
+
+
+        ResponseEntity<Cart> responseCart = cartController.removeFromcart(modifyCartRequest);
+        assertNotNull(responseCart);
+        assertEquals(404,responseCart.getStatusCodeValue());
+    }
 }
