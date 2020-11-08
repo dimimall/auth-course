@@ -1,0 +1,19 @@
+2020-11-08 17:06:54,863 INFO com.example.demo.SareetaApplication [main] Starting SareetaApplication on 192.168.1.25 with PID 9081 (started by macbook in /Users/macbook/IdeaProjects/JDND-master/projects/P04-eCommerce Application/starter_code)
+2020-11-08 17:06:54,888 INFO com.example.demo.SareetaApplication [main] No active profile set, falling back to default profiles: default
+2020-11-08 17:06:58,521 INFO org.apache.catalina.core.StandardService [main] Starting service [Tomcat]
+2020-11-08 17:06:58,522 INFO org.apache.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/9.0.19]
+2020-11-08 17:06:58,832 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
+2020-11-08 17:06:59,230 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2020-11-08 17:06:59,560 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2020-11-08 17:06:59,694 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-11-08 17:06:59,877 INFO org.hibernate.Version [main] HHH000412: Hibernate Core {5.3.10.Final}
+2020-11-08 17:06:59,880 INFO org.hibernate.cfg.Environment [main] HHH000206: hibernate.properties not found
+2020-11-08 17:07:00,179 INFO org.hibernate.annotations.common.Version [main] HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-08 17:07:00,437 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020-11-08 17:07:04,054 INFO com.example.demo.SareetaApplication [main] Started SareetaApplication in 10.422 seconds (JVM running for 11.505)
+2020-11-08 17:07:16,005 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8081-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-11-08 17:07:16,259 INFO com.example.demo.controllers.UserController [http-nio-8081-exec-2] SUCCESS: username set with Mary
+2020-11-08 17:09:35,150 INFO com.zaxxer.hikari.HikariDataSource [Thread-4] HikariPool-1 - Shutdown initiated...
+2020-11-08 17:09:35,155 INFO com.zaxxer.hikari.HikariDataSource [Thread-4] HikariPool-1 - Shutdown completed.
