@@ -18,13 +18,12 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
-	private org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class.getName());
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class.getName());
 
 	@Autowired
 	private UserRepository userRepository;
@@ -35,8 +34,6 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//	@Autowired
-//	private com.splunk.TcpInput tcpInput;
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<UserApplication> findById(@PathVariable Long id) {
@@ -62,12 +59,6 @@ public class UserController {
 		user.setUsername(createUserRequest.getUsername());
 
 		logger.info("SUCCESS: username set with "+createUserRequest.getUsername());
-//		try {
-//			tcpInput.submit("INFO: New user create request received");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			logger.error(e.getLocalizedMessage());
-//		}
 
 		Cart cart = new Cart();
 		cartRepository.save(cart);
