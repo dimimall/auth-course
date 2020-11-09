@@ -18,13 +18,12 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
-	private org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class.getName());
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class.getName());
 
 	@Autowired
 	private UserRepository userRepository;
@@ -35,8 +34,6 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//	@Autowired
-//	private com.splunk.TcpInput tcpInput;
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<UserApplication> findById(@PathVariable Long id) {
@@ -47,11 +44,11 @@ public class UserController {
 	public ResponseEntity<UserApplication> findByUserName(@PathVariable String username) {
 		UserApplication user = userRepository.findByUsername(username);
 		if (user != null){
-			logger.info("INFO: user is : "+username);
+			logger.info("SUCCESS: user is : "+username);
 
 		}
 		else {
-			logger.error("Error: there is no user with that name: "+username);
+			logger.error("FAIL: there is no user with that name: "+username);
 		}
 		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
@@ -61,18 +58,12 @@ public class UserController {
 		UserApplication user = new UserApplication();
 		user.setUsername(createUserRequest.getUsername());
 
-		logger.info("INFO: username set with "+createUserRequest.getUsername());
-//		try {
-//			tcpInput.submit("INFO: New user create request received");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			logger.error(e.getLocalizedMessage());
-//		}
+		logger.info("SUCCESS: username set with "+createUserRequest.getUsername());
 
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		if (createUserRequest.getPassword().length() < 7 || !createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
-			logger.error("Error: with user password cannot create User() "+ createUserRequest.getUsername());
+			logger.error("FAIL: with user password cannot create User() "+ createUserRequest.getUsername());
 			return ResponseEntity.badRequest().build();
 		}
 

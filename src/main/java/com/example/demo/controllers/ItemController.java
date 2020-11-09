@@ -32,10 +32,11 @@ public class ItemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Item> getItemById(@PathVariable Long id) {
 		if (itemRepository.findById(id) == null) {
-			log.error("ERROR");
+			log.error("ERROR: this item does not exist");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		else {
+			log.info("INFO: this item is "+itemRepository.findById(id).get().getName());
 			return ResponseEntity.of(itemRepository.findById(id));
 		}
 	}

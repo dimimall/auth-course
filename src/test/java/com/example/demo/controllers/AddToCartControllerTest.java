@@ -76,4 +76,39 @@ public class AddToCartControllerTest {
         Assert.assertNotNull(userOrder.getUser());
         Assert.assertNotNull(userOrder.getTotal());
     }
+
+    @Test
+    public void submitOrderNullUser()
+    {
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(null);
+        cart.setItems(new ArrayList<>());
+        cart.setTotal(BigDecimal.valueOf(0.0));
+
+        UserApplication user = new UserApplication();
+        user.setUsername(null);
+        user.setPassword("test");
+        user.setCart(cart);
+
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("t-shirt");
+        item.setDescription("this is a new t-shirt");
+        item.setPrice(BigDecimal.valueOf(10.0));
+
+        List<Item> listItems = new ArrayList<>();
+        listItems.add(item);
+
+        cart.setItems(listItems);
+        user.setCart(cart);
+        cart.setUser(user);
+
+        when(userRepository.findByUsername("Dimi")).thenReturn(user);
+
+        ResponseEntity<UserOrder> responseEntity = orderController.submit(null);
+        assertNotNull(responseEntity);
+        assertEquals(404, responseEntity.getStatusCodeValue());
+
+    }
 }
