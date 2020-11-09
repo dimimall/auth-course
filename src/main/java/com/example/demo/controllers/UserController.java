@@ -58,14 +58,14 @@ public class UserController {
 		UserApplication user = new UserApplication();
 		user.setUsername(createUserRequest.getUsername());
 
-		logger.info("SUCCESS: username set with "+createUserRequest.getUsername());
-
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		if (createUserRequest.getPassword().length() < 7 || !createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
 			logger.error("FAIL: with user password cannot create User() "+ createUserRequest.getUsername());
 			return ResponseEntity.badRequest().build();
 		}
+
+		logger.info("SUCCESS: username set with "+createUserRequest.getUsername());
 
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		user.setCart(cart);

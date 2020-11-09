@@ -35,13 +35,13 @@ public class OrderController {
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		UserApplication user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("FAIL: this user does not exist "+username);
+			log.error("FAIL: this user does not exist "+username+" failed request order");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		else {
 			UserOrder order = UserOrder.createFromCart(user.getCart());
 			orderRepository.save(order);
-			log.info("SUCCESS: success submit order ");
+			log.info("SUCCESS: order request success ");
 			return ResponseEntity.ok(order);
 		}
 	}
